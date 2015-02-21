@@ -7,7 +7,7 @@ app = Flask(__name__)
 def hello():
 	con = sqlite3.connect('nytimes.db')
 	results = con.execute("SELECT * FROM articles;")
-	# print("PRINTING SQL RESULTS!!!")
+	# print("PRINTING SQL RESULTS!!!!")
 	# print(type(results))
 	# print(dir(results))
 	# print(results.fetchall())
