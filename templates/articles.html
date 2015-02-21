@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New York Times Articles</title>
+</head>
+<body>
+
+<h1>New York Times articles</h1>
+
+<table>
+	<tr>
+		<th>ID</th>
+		<th>Title</th>
+	</tr>
+
+
+{% for result in my_results %}
+	<tr>
+		<td>{{ result[0] }}</td>
+		<td><a target='_blank' href='{{ result[2] }}'>{{ result[1] }}</a></td>
+	</tr>
+{% endfor %}
+
+
+</table>
+
+</body>
+</html>
