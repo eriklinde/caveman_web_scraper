@@ -18,7 +18,7 @@ def hello():
 	return render_template('articles.html', my_results=results)
 
 if __name__ == "__main__":
-	app.run(debug=True)
+	app.run(debug=True, host='0.0.0.0')
 
 def extract_data():
 	print('hey')
