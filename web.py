@@ -6,8 +6,8 @@ import os
 DB_NAME = 'nytimes.db'
 
 @app.route("/")
-def hello():
-	con = sqlite3.connect('nytimes.db')
+def index():
+        con = sqlite3.connect(os.path.dirname(os.path.realpath(__file__)) + "/" + DB_NAME)
 	results = con.execute("SELECT * FROM articles;")
 	return render_template('articles.html', my_results=results)
 
