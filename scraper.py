@@ -1,5 +1,6 @@
 ##########################################
-# Jason Kong's code to scrape nymag.com
+# Simple web scraper that fetches the main article on nytimes.com
+# and stores it in an SQLite database
 ##########################################
 # Note: this code is a lightweight way to accomplish two things
 # 1) Scrape a website for data
@@ -16,7 +17,7 @@ import requests
 import sqlite3
 from bs4 import BeautifulSoup
 import os
-# Make an HTTP request to www.nymag.com
+# Make an HTTP request to www.nytimes.com
 # I.e., fetch the HTML source. html_source will now equal
 # the same thing you would see had you gone to the website in your
 # browser and clicked "View Source"
@@ -35,12 +36,13 @@ parsed_html=BeautifulSoup(html_source.text)
 # structure.
 # print(parsed_html.prettify())
 
-# Let's find our first element. This will find a <div> with ID='wrap', and
-# within that, it will find a <section> of class='latestNews', and within that,
-# it will find an <a>.
+# Let's start by zoning in on a section with ID = top-news, and from there, 
+# we continue on to a div of class collection, from then on to an article of
+# class story, onto h2 with class story-heading (which represents the element
+# we want to get to)
 latest_story = parsed_html.select("section#top-news div.collection article.story h2.story-heading")[0]
 
-# Within the latest_story element, find the first <h3> element,
+# Within that element, find the first <a> element,
 # and store its text in the variable headline.
 headline = latest_story.find("a").text.strip()
 
@@ -49,6 +51,7 @@ headline = latest_story.find("a").text.strip()
 url = latest_story.find("a")['href'].strip()
 
 # Print the results (for debugging / to make sure you are on the right track)
+print("Printing headling and URL: ")
 print(headline)
 print(url)
 
@@ -57,7 +60,9 @@ print(url)
 # to it; if the database doesn't already exist, a it will be created, and then
 # a connection will be established to it. The .connect() method returns the
 # database connection object, so we store that in a new object called con.
-con = sqlite3.connect(os.path.dirname(os.path.realpath(__file__)) + "/" + "nytimes.db")
+# the os.path.dirname command simply gives us the current directory in which our 
+# scraper.py file resides, which we then concatenate with the name of the database.
+con = sqlite3.connect(os.path.dirname(os.path.realpath(__file__)) + "/" + DB_NAME)
 # Create your table. If this is the first time you run this, the table will
 # be created, as expected. If this is NOT the first time you run this code,
 # this request will simply be ignored.
