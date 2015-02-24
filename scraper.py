@@ -15,11 +15,14 @@
 import requests
 import sqlite3
 from bs4 import BeautifulSoup
-
+import os
 # Make an HTTP request to www.nymag.com
 # I.e., fetch the HTML source. html_source will now equal
 # the same thing you would see had you gone to the website in your
 # browser and clicked "View Source"
+
+DB_NAME = 'nytimes.db'
+
 html_source = requests.get("http://www.nytimes.com")
 
 # Parse the raw HTML source (which is just a string) into something that
@@ -54,8 +57,7 @@ print(url)
 # to it; if the database doesn't already exist, a it will be created, and then
 # a connection will be established to it. The .connect() method returns the
 # database connection object, so we store that in a new object called con.
-con = sqlite3.connect("nytimes.db")
-
+con = sqlite3.connect(os.path.dirname(os.path.realpath(__file__)) + "/" + "nytimes.db")
 # Create your table. If this is the first time you run this, the table will
 # be created, as expected. If this is NOT the first time you run this code,
 # this request will simply be ignored.
